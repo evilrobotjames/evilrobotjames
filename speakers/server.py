@@ -10,10 +10,16 @@ TCP_IP = "" # any address
 TCP_PORT = 3141
 
 def get_state():
-    pass
+    logging.info("get_state")
+    return "1 1 1 1 0 0 0 0"
+
+def set_state(args):
+    logging.info("set_state" + str(args))
+    return "OK"
 
 commands = {
-        "GetState": get_state
+        "GetState": get_state,
+        "SetState": set_state,
     }
 
 def serve():
@@ -33,7 +39,15 @@ def serve():
             continue
 
         logging.debug("rx: %s" % cmd)
-        reply = "OK"
+
+        list = cmd.split()
+        if len(list) > 1:
+            # has args
+            reply = commands[list[0]](list[1:])
+        else:
+            # no args
+            reply = commands[list[0]]()
+
         conn.send(reply)
         logging.debug("tx: %s" % reply)
 
