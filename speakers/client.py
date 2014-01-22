@@ -8,20 +8,21 @@ logging.basicConfig(level=logging.DEBUG)
 
 MAX_SPEAKER = 7
 
-TCP_IP = "192.168.0.31"
+TCP_IP = "127.0.0.1"
 TCP_PORT = 3141
 
 def get_state():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect((TCP_IP, TCP_PORT))
-    msg = "GET_STATE"
-    logging.debug("tx: %s" % msg)
-    s.send(msg)
-    #reply = s.recv(1024)
-    #logging.debug("rx: %s" % reply)
-    s.close()
+    transact("GET_STATE")
 
-#    return reply
+def transact(cmd):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((TCP_IP, TCP_PORT))
+    logging.debug("tx: %s" % cmd)
+    s.send(cmd)
+    reply = s.recv(1024)
+    logging.debug("rx: %s" % reply)
+    s.close()
+    return reply
 
 
 def validate_speaker(string):
@@ -50,4 +51,4 @@ if __name__ == "__main__":
 		help="either on (or 1) or off (or 0)")
     args = parser.parse_args()
 
-    print get_state() 
+    get_state() 
