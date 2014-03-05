@@ -23,8 +23,14 @@ def transact(cmd):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((TCP_IP, TCP_PORT))
     logging.debug("tx: %s" % cmd)
-    s.send(cmd)
-    reply = s.recv(1024)
+    s.send(cmd + '\n')
+    reply = ""
+    while True:
+        c = s.recv(1)
+        if c == '\n':
+            break
+        reply.append(c)
+
     logging.debug("rx: %s" % reply)
     s.close()
     return reply

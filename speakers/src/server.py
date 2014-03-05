@@ -3,25 +3,37 @@
 import argparse
 import socket
 import logging
+from RPi import GPIO
 
 logging.basicConfig(level=logging.DEBUG, filename='/var/log/speakers')
 
 TCP_IP = "" # any address
 TCP_PORT = 3141
 
-state = []
-for i in range(0,7):
-    state.append(True)
+STATE = []
+PINS = [
+    3,  # GPIO0
+    5,  # GPIO1
+    7,  # GPIO4
+    8,  # GPIO14
+    10, # GPIO15
+    11, # GPIO17
+    12, # GPIO18
+    13, # GPIO21
+  ]
+
+for i in PINS:
+    STATE.append((i, False))
 
 def get_state():
     logging.info("get_state")
-    return "1 1 1 1 0 0 0 0"
+    return [p[1] for p in STATE]
 
 def set_state(args):
     logging.info("set_state" + str(args))
     return "OK"
 
-commands = {
+COMMANDS = {
         "GetState": get_state,
         "SetState": set_state,
     }
@@ -32,7 +44,7 @@ def serve():
     s.listen(5)
     logging.debug("listening")
 
-    while 1:
+    while True:
         conn, addr = s.accept()
         logging.debug("connection: %s" % str(addr))
 
@@ -47,10 +59,10 @@ def serve():
         list = cmd.split()
         if len(list) > 1:
             # has args
-            reply = commands[list[0]](list[1:])
+            reply = COMMANDS[list[0]](list[1:])
         else:
             # no args
-            reply = commands[list[0]]()
+            reply = COMMANDS[list[0]]()
 
         conn.send(reply)
         logging.debug("tx: %s" % reply)
