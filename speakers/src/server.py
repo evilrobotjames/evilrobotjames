@@ -4,10 +4,14 @@ import argparse
 import socket
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG, filename='/var/log/speakers')
 
 TCP_IP = "" # any address
 TCP_PORT = 3141
+
+state = []
+for i in range(0,7):
+    state.append(True)
 
 def get_state():
     logging.info("get_state")
