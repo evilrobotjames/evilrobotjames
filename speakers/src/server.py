@@ -1,75 +1,70 @@
 #!/usr/bin/python
+"""
+Speaker control XMLRPC server
+"""
 
 import argparse
-import socket
+import common
 import logging
 from RPi import GPIO
+from SimpleXMLRPCServer import SimpleXMLRPCServer
+import xmlrpclib
 
 logging.basicConfig(level=logging.DEBUG, filename='/var/log/speakers')
 
-TCP_IP = "" # any address
-TCP_PORT = 3141
+# RPi.GPIO pin numbers, which equate to the pin on the 26pin header on the RPi
+# itself.  Chosen to avoid any special-function pins.
+PINS = [7, 11, 12, 13, 15, 16, 18, 22]
 
+# A list of the current speaker states.  The position in the list defines the 
+# speaker number.  Each speaker state is represented by a (GPIOPIN, STATE)
+# tuple.
 STATE = []
-PINS = [
-    3,  # GPIO0
-    5,  # GPIO1
-    7,  # GPIO4
-    8,  # GPIO14
-    10, # GPIO15
-    11, # GPIO17
-    12, # GPIO18
-    13, # GPIO21
-  ]
 
-for i in PINS:
-    STATE.append((i, False))
+def initialize():
+    """ Current state of all speakers, initiallized to to off """
+    GPIO.setmode(GPIO.BOARD)
+    for pin in PINS:
+        logging.debug("using pin %d", pin)
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, False)
+        STATE.append((pin, False))
+    logging.info("state initialized %s", str(STATE))
 
 def get_state():
+    """
+    Returns the current state of all speakers as a list of bools, each bool 
+    representing a speaker.
+    """ 
     logging.info("get_state")
-    return [p[1] for p in STATE]
+    logging.info("STATE %s", str(STATE))
+    return [state[1] for state in STATE]
 
-def set_state(args):
-    logging.info("set_state" + str(args))
-    return "OK"
-
-COMMANDS = {
-        "GetState": get_state,
-        "SetState": set_state,
-    }
-
-def serve():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((TCP_IP, TCP_PORT))
-    s.listen(5)
-    logging.debug("listening")
-
-    while True:
-        conn, addr = s.accept()
-        logging.debug("connection: %s" % str(addr))
-
-        cmd = conn.recv(1024)
-        if cmd == False:
-            logging.error("Failed to read command")
-            conn.close()
-            continue
-
-        logging.debug("rx: %s" % cmd)
-
-        list = cmd.split()
-        if len(list) > 1:
-            # has args
-            reply = COMMANDS[list[0]](list[1:])
-        else:
-            # no args
-            reply = COMMANDS[list[0]]()
-
-        conn.send(reply)
-        logging.debug("tx: %s" % reply)
+def set_state(speaker, state):
+    """
+    Sets the state of an individual speaker.  speaker is 0-N, where N is the 
+    number of speakers.  state is a boolean on/off.
+    """
+    logging.info("set_state %s %s", speaker, state)
+    if speaker < 1 or speaker > len(PINS):
+        raise xmlrpclib.Fault(xmlrpclib.APPLICATION_ERROR, "Invalid speaker")
+    index = speaker - 1
+    GPIO.output(STATE[index][0], state)
+    STATE[index] = (STATE[index][0], state)
+    return True
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-            description='Server for controlling amplifiers')
-    args = parser.parse_args()
+    PARSER = argparse.ArgumentParser(
+             description='Server for controlling amplifiers')
+    ARGS = PARSER.parse_args()
 
-    serve()
+    try:
+        initialize()
+        SERVER = SimpleXMLRPCServer(("localhost", common.PORT))
+        logging.info("listening")
+        SERVER.register_function(get_state, "get_state")
+        SERVER.register_function(set_state, "set_state")
+        SERVER.serve_forever()
+    finally:
+        GPIO.cleanup()
+
