@@ -1,7 +1,7 @@
 #!/usr/bin/python
-"""
+'''
 XMLRPC speaker control client script/library
-"""
+'''
 
 import argparse
 import common
@@ -11,18 +11,22 @@ import xmlrpclib
 logging.basicConfig(level=logging.DEBUG)
 
 def validate_state(string):
-    """ Converts on/1/True and off/0/False into a boolean """
+    '''
+    Converts on/1/True and off/0/False (case insensitive) into a boolean
+    '''
     string = string.lower()
     if string in ['on', '1', 'True']:
         return True
     elif string in ['off', '0', 'False']:
         return False
     else:
-        msg = "%r not a vaile STATE.  Use on, off, 1 or 0." % string
+        msg = "%r not a valid STATE.  Use on, off, 1 or 0." % string
         raise argparse.ArgumentTypeError(msg)
 
 def initialize():
-    """ Returns a XMLRPC server proxy """
+    '''
+    Returns a XMLRPC server proxy
+    '''
     url = "http://localhost:%s" % common.PORT
     logging.info("Connecting to %s", url)
     return xmlrpclib.ServerProxy(url)
@@ -47,4 +51,4 @@ if __name__ == "__main__":
         print PROXY.set_state(ARGS.speaker, ARGS.state)
     else:
         # args.speaker != args.state
-        PARSER.error("SPEAKER and STATE must both be supplied, or neither.")
+        PARSER.error('SPEAKER and STATE must both be supplied, or neither.')

@@ -1,7 +1,7 @@
 #!/usr/bin/python
-"""
+'''
 Speaker control XMLRPC server
-"""
+'''
 
 import argparse
 import common
@@ -22,7 +22,9 @@ PINS = [7, 11, 12, 13, 15, 16, 18, 22]
 STATE = []
 
 def initialize():
-    """ Current state of all speakers, initiallized to to off """
+    '''
+    Current state of all speakers, initialised to to off
+    '''
     GPIO.setmode(GPIO.BOARD)
     for pin in PINS:
         logging.debug("using pin %d", pin)
@@ -32,19 +34,19 @@ def initialize():
     logging.info("state initialized %s", str(STATE))
 
 def get_state():
-    """
+    '''
     Returns the current state of all speakers as a list of bools, each bool 
     representing a speaker.
-    """ 
+    ''' 
     logging.info("get_state")
     logging.info("STATE %s", str(STATE))
     return [state[1] for state in STATE]
 
 def set_state(speaker, state):
-    """
+    '''
     Sets the state of an individual speaker.  speaker is 0-N, where N is the 
     number of speakers.  state is a boolean on/off.
-    """
+    '''
     logging.info("set_state %s %s", speaker, state)
     if speaker < 1 or speaker > len(PINS):
         raise xmlrpclib.Fault(xmlrpclib.APPLICATION_ERROR, "Invalid speaker")
