@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ "x$1" == "x" ]; then
+  echo "Need an argument."
+  exit
+fi
+
+while [ 1 ]; do
+
+  ping -c 1 $1 &> /dev/null
+  RC=`echo $?`
+
+  if [ "x$RC" != "x$PREV_RC" ]; then
+    if [ "x$RC" == "x0" ]; then
+      echo "$1 - `date --iso-8601=seconds` - UP";
+    else
+      echo "$1 - `date --iso-8601=seconds` - DOWN";
+    fi
+  fi
+
+  PREV_RC=$RC
+
+  sleep 5
+
+done
