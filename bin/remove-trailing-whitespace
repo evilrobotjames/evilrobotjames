@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+if [ "x$1" == "x--help" ]
+then
+	echo "usage: remove-trailing-whitespace FILE [FILE ...]"
+	exit 1
+fi
+
+for i in $@; do
+	sed -i 's/[ \t]*$//' "$i"
+done
