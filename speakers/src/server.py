@@ -16,10 +16,11 @@ logging.basicConfig(level=logging.DEBUG, filename='/var/log/speakers')
 # itself.  Chosen to avoid any special-function pins.
 PINS = [7, 11, 12, 13, 15, 16, 18, 22]
 
-# A list of the current speaker states.  The position in the list defines the 
+# A list of the current speaker states.  The position in the list defines the
 # speaker number.  Each speaker state is represented by a (GPIOPIN, STATE)
 # tuple.
 STATE = []
+
 
 def initialize():
     '''
@@ -33,18 +34,20 @@ def initialize():
         STATE.append((pin, False))
     logging.info("state initialized %s", str(STATE))
 
+
 def get_state():
     '''
-    Returns the current state of all speakers as a list of bools, each bool 
+    Returns the current state of all speakers as a list of bools, each bool
     representing a speaker.
-    ''' 
+    '''
     logging.info("get_state")
     logging.info("STATE %s", str(STATE))
     return [state[1] for state in STATE]
 
+
 def set_state(speaker, state):
     '''
-    Sets the state of an individual speaker.  speaker is 0-N, where N is the 
+    Sets the state of an individual speaker.  speaker is 0-N, where N is the
     number of speakers.  state is a boolean on/off.
     '''
     logging.info("set_state %s %s", speaker, state)
@@ -55,9 +58,10 @@ def set_state(speaker, state):
     STATE[index] = (STATE[index][0], state)
     return True
 
+
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser(
-             description='Server for controlling amplifiers')
+        description='Server for controlling amplifiers')
     ARGS = PARSER.parse_args()
 
     try:
@@ -69,4 +73,3 @@ if __name__ == "__main__":
         SERVER.serve_forever()
     finally:
         GPIO.cleanup()
-

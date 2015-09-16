@@ -10,6 +10,7 @@ import xmlrpclib
 
 logging.basicConfig(level=logging.DEBUG)
 
+
 def validate_state(string):
     '''
     Converts on/1/True and off/0/False (case insensitive) into a boolean
@@ -23,6 +24,7 @@ def validate_state(string):
         msg = "%r not a valid STATE.  Use on, off, 1 or 0." % string
         raise argparse.ArgumentTypeError(msg)
 
+
 def initialize():
     '''
     Returns a XMLRPC server proxy
@@ -31,22 +33,23 @@ def initialize():
     logging.info("Connecting to %s", url)
     return xmlrpclib.ServerProxy(url)
 
+
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser(
-            description='Send speaker config to server.  Specify a speaker '
-                        'and a state to change state.  No arguments '
-                        'fetches the current state of all speakers.')
+        description='Send speaker config to server.  Specify a speaker '
+                    'and a state to change state.  No arguments '
+                    'fetches the current state of all speakers.')
     PARSER.add_argument('speaker', metavar="SPEAKER", type=int,
-                help="speaker to enable/disable", nargs='?')
-    PARSER.add_argument('state', metavar="STATE", type=validate_state, 
-		help="either on (or 1) or off (or 0)", nargs='?')
+                        help="speaker to enable/disable", nargs='?')
+    PARSER.add_argument('state', metavar="STATE", type=validate_state,
+                        help="either on (or 1) or off (or 0)", nargs='?')
 
     ARGS = PARSER.parse_args()
-    
-    if ARGS.state == None and ARGS.speaker == None:
+
+    if ARGS.state is None and ARGS.speaker is None:
         PROXY = initialize()
         print PROXY.get_state()
-    elif ARGS.state != None and ARGS.speaker != None:
+    elif ARGS.state is not None and ARGS.speaker is not None:
         PROXY = initialize()
         print PROXY.set_state(ARGS.speaker, ARGS.state)
     else:
