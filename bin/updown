@@ -1,8 +1,10 @@
 #!/bin/bash
 
 if [ "x$1" == "x" ]; then
-  echo "Need an argument."
-  exit
+  echo "usage: updown IP_ADDRESS"
+  echo
+  echo "Report when the availability of the address (using ping) changes state."
+  exit 1
 fi
 
 while [ 1 ]; do
