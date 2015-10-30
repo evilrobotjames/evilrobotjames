@@ -9,10 +9,11 @@ class Edge
 {
 
 public:
-    Edge();
+    Edge(Tile *t);
 
 private:
-
+    int i;
+    Tile *tile;
 };
 
 #endif

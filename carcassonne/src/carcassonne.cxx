@@ -16,5 +16,5 @@ int main(int argc, char *argv[] __attribute__((unused)))
     cout << "Let's play carcassonne!" << endl;
 
     Tile t = Tile();
-    //Edge e = Edge(&t);
+    t.run();
 }
