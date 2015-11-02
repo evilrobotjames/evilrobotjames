@@ -8,6 +8,7 @@ class Tile
 {
 public:
     Tile();
+    int run();
 
 private:
     Edge n;
