@@ -1,7 +1,8 @@
 #pragma once
 
-class Edge;
 class Tile;
+
+#include "Component.h"
 
 class Edge
 {
@@ -10,4 +11,7 @@ public:
 
 private:
     Tile *tile;
+    Component left;
+    Component middle;
+    Component right;
 };
