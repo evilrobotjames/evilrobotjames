@@ -1,18 +1,13 @@
-#ifndef __EDGE_H__
-#define __EDGE_H__
+#pragma once
 
 class Edge;
-
-#include "Tile.h"
+class Tile;
 
 class Edge
 {
-
 public:
-    Edge();
+    Edge(Tile *t);
 
 private:
-
+    Tile *tile;
 };
-
-#endif

@@ -1,7 +1,6 @@
 #include "Edge.h"
-#include "Tile.h"
 
-Edge::Edge()
+Edge::Edge(Tile* t)
 {
-
+    tile = t;
 }

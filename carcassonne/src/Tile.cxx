@@ -1,8 +1,9 @@
-
 #include "Tile.h"
-#include "Edge.h"
 
-Tile::Tile()
+Tile::Tile() :
+    e(this),
+    n(this),
+    s(this),
+    w(this)
 {
-    e = Edge();
 }
