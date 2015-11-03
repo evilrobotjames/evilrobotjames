@@ -1,0 +1,2 @@
+#define carcassonne_VERSION_MAJOR @carcassonne_VERSION_MAJOR@
+#define carcassonne_VERSION_MINOR @carcassonne_VERSION_MINOR@
