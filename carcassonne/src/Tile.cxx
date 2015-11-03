@@ -1,8 +1,8 @@
 #include "Tile.h"
 
 Tile::Tile() :
-    e(this),
     n(this),
+    e(this),
     s(this),
     w(this)
 {

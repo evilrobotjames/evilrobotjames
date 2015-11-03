@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 
+#include "carcassonneConfig.h"
 #include "Tile.h"
 
 using namespace std;
@@ -14,6 +15,8 @@ int main(int argc, char *argv[] __attribute__((unused)))
     }
 
     cout << "Let's play carcassonne!" << endl;
+    cout << "Version: " << carcassonne_VERSION_MAJOR << "."
+         << carcassonne_VERSION_MINOR << endl;
 
-    Tile t = Tile();
+    Tile();
 }
