@@ -2,8 +2,13 @@ cmake_minimum_required (VERSION 2.6)
 project (carcassonne)
 
 # Compiler and flags
-SET (CMAKE_CXX_COMPILER             "/usr/bin/clang++")
-SET (CMAKE_CXX_FLAGS                "-Weverything -std=c++11 -g")
+
+if(UNIX)
+    SET (CMAKE_CXX_COMPILER             "/usr/bin/clang++")
+    SET (CMAKE_CXX_FLAGS                "-Weverything -std=c++11 -g")
+else()
+    SET (CMAKE_CXX_FLAGS                "-Wall -WX")
+endif()
 
 # Version number
 set (carcassonne_VERSION_MAJOR 0)

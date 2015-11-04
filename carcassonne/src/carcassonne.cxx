@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int main(int argc, char *argv[] __attribute__((unused)))
+int main(int argc, char *)
 {
     if (argc != 1)
     {
