@@ -7,7 +7,7 @@ if(UNIX)
     SET (CMAKE_CXX_COMPILER             "/usr/bin/clang++")
     SET (CMAKE_CXX_FLAGS                "-Weverything -std=c++11 -g")
 else()
-    SET (CMAKE_CXX_FLAGS                "-Wall -WX")
+    SET (CMAKE_CXX_FLAGS                "-W4 -WX /EHsc")
 endif()
 
 # Version number
