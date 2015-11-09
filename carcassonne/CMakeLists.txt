@@ -20,6 +20,9 @@ configure_file (
   "${PROJECT_BINARY_DIR}/carcassonneConfig.h"
   )
 
-include_directories("${PROJECT_BINARY_DIR}")
+include_directories("${PROJECT_BINARY_DIR}" "src/include")
 
-add_executable(carcassonne src/carcassonne.cxx src/Tile.cxx src/Edge.cxx src/Component.cxx)
+add_subdirectory(src/lib)
+add_executable(carcassonne src/carcassonne.cxx)
+
+target_link_libraries(carcassonne lib)
