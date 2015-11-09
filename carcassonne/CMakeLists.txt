@@ -17,12 +17,26 @@ set (carcassonne_VERSION_MINOR 1)
 # Config file, with version number passed from CMake.
 configure_file (
   "${PROJECT_SOURCE_DIR}/src/carcassonneConfig.h.in"
-  "${PROJECT_BINARY_DIR}/carcassonneConfig.h"
+  "${PROJECT_BINARY_DIR}/include/carcassonneConfig.h"
   )
 
-include_directories("${PROJECT_BINARY_DIR}" "src/include")
+include_directories("${PROJECT_BINARY_DIR}/include" "include")
 
-add_subdirectory(src/lib)
-add_executable(carcassonne src/carcassonne.cxx)
+set (
+  SOURCE_FILES
+  src/carcassonne.cxx
+  src/Tile.cxx
+  src/Edge.cxx
+  src/Component.cxx)
 
-target_link_libraries(carcassonne lib)
+set (
+  HEADER_FILES
+  include/Tile.h
+  include/Edge.h
+  include/Component.h)
+
+add_executable(
+  carcassonne
+  ${HEADER_FILES}
+  ${SOURCE_FILES})
+
