@@ -5,7 +5,7 @@ project (carcassonne)
 
 if(UNIX)
     SET (CMAKE_CXX_COMPILER             "/usr/bin/clang++")
-    SET (CMAKE_CXX_FLAGS                "-Weverything -std=c++11 -g")
+    SET (CMAKE_CXX_FLAGS                "-Weverything -Wno-c++98-compat -std=c++11 -g")
 else()
     SET (CMAKE_CXX_FLAGS                "-W4 -WX /EHsc")
 endif()
@@ -27,13 +27,15 @@ set (
   src/carcassonne.cxx
   src/Tile.cxx
   src/Edge.cxx
-  src/Component.cxx)
+  src/FeatureSection.cxx
+)
 
 set (
   HEADER_FILES
   include/Tile.h
   include/Edge.h
-  include/Component.h)
+  include/FeatureSection.h
+)
 
 add_executable(
   carcassonne

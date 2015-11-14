@@ -3,6 +3,7 @@
 
 #include "carcassonneConfig.h"
 #include "Tile.h"
+#include "FeatureSection.h"
 
 using namespace std;
 
@@ -18,5 +19,13 @@ int main(int argc, char **)
     cout << "Version: " << carcassonne_VERSION_MAJOR << "."
          << carcassonne_VERSION_MINOR << endl;
 
-	Tile();
+    FeatureSection field = FeatureSection();
+    FeatureSection road = FeatureSection();
+    FeatureSection castle = FeatureSection();
+
+    Edge edge = Edge();
+
+	Tile tile = Tile();
+
+
 }

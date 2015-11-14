@@ -1,17 +1,23 @@
 #pragma once
 
 class Tile;
+class FeatureSection;
 
-#include "Component.h"
+#include <array>
+
+// Position of entry point when viewed from the centre point of the tile.
+enum class EdgeEntryPoint {Left, Middle, Right};
 
 class Edge
 {
 public:
-    Edge(Tile *t);
-
+    Edge();
+    void SetFeatureSection(EdgeEntryPoint eep, FeatureSection *fs);
+    void GetFeatureSection(EdgeEntryPoint eep);
+    void SetTile(Tile *t);
 private:
     Tile *tile;
-    Component left;
-    Component middle;
-    Component right;
+    FeatureSection *left;
+    FeatureSection *middle;
+    FeatureSection *right;
 };
