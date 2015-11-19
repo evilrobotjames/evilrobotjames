@@ -28,6 +28,8 @@ set (
   src/Tile.cxx
   src/Edge.cxx
   src/FeatureSection.cxx
+  src/Board.cxx
+  src/TileSet.cxx
 )
 
 set (
@@ -35,6 +37,8 @@ set (
   include/Tile.h
   include/Edge.h
   include/FeatureSection.h
+  include/Board.h
+  include/TileSet.h
 )
 
 add_executable(
