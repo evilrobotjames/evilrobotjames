@@ -3,6 +3,7 @@
 import re
 
 # 104 too low
+# 115 too high
 
 hcl_re = re.compile('^#(?P<hcl>[0-9a-f]{6}$)')
 pid_re = re.compile('[0-9]{9}')
@@ -72,7 +73,7 @@ class Passport():
             self.rejecting('hcl', hcl)
             return
 
-        if not ecl in ['amb', 'blu', 'brn', 'gry', 'hzl', 'oth']:
+        if not ecl in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']:
             self.rejecting('ecl', ecl)
             return
 
