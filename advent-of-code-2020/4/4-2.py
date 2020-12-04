@@ -37,7 +37,9 @@ class Passport():
         byr = int(self.data['byr'])
         iyr = int(self.data['iyr'])
         eyr = int(self.data['eyr'])
-        hgt = (int(self.data['hgt'][:-2]), self.data['hgt'][-2:])
+        hgt = self.data['hgt']
+        hgt_val = int(hgt[:-2])
+        hgt_unit = hgt[-2:]
         hcl = self.data['hcl']        
         ecl = self.data['ecl']
         pid = self.data['pid']
@@ -52,6 +54,18 @@ class Passport():
 
         if not (eyr >= 2020 and eyr <= 2030):
             self.rejecting('eyr', eyr)
+            return
+
+        if hgt_unit == 'cm':
+            if not (hgt_val >= 150 and hgt_val <= 193):
+                self.rejecting('hgt', hgt)
+                return
+        elif hgt_unit == 'in':
+            if not (hgt_val >= 59 and hgt_val <= 76):
+                self.rejecting('hgt', hgt)
+                return
+        else:
+            self.rejecting('hgt', hgt)
             return
 
         if None == hcl_re.match(hcl):
