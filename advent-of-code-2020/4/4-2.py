@@ -6,13 +6,15 @@ import re
 # 115 too high
 
 hcl_re = re.compile('^#(?P<hcl>[0-9a-f]{6}$)')
-pid_re = re.compile('[0-9]{9}')
+pid_re = re.compile('^[0-9]{9}$')
 
 class Passport():
     def __init__(self):
         self.data = {}
 
     def add(self, field, value):
+        if field in self.data.keys():
+            assert(False)
         self.data[field] = value
 
     def rejecting(self, field, value=None):
