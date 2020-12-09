@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+target = 85848519
+#target = 127
+
 with open('data.txt') as file:
     lines = file.read().splitlines()
 
@@ -7,25 +10,26 @@ numbers = []
 for line in lines:
     numbers.append(int(line))
 
-PREAMBLE = 25
-
-def permute(lower, upper):
-    sums = set()
-    for i in range(lower, upper):
-        for j in range(lower, upper):
-            if i != j:
-                sums.add(numbers[i] + numbers[j])
-    return sums
+def check_range(lower, upper):
+    sublist = numbers[lower:upper]
+    print(sublist)
+    return sum(sublist), sum((min(sublist), max(sublist)))
 
 
-for i in range(PREAMBLE, len(numbers)):
-    valid_numbers = permute(i-PREAMBLE, i)
-    print('{0}: {1}'.format(numbers[i], valid_numbers))
-    if numbers[i] not in valid_numbers:
-        print('FAIL: {0}', numbers[i])
-        import sys
-        sys.exit()
-     
+seq_len = 2
+
+while seq_len < len(numbers):
+    print('seq_len: {0}'.format(seq_len))
+    for i in range(len(numbers) - seq_len):
+        lower = i
+        upper = i + seq_len
+        sum_all, sum_minmax = check_range(lower, upper)
+        if sum_all == target:
+            print("awooga")
+            print(sum_minmax)
+            import sys
+            sys.exit()
+    seq_len += 1 
 
 
 
