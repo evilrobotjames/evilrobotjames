@@ -9,20 +9,20 @@ def print_primes(primes):
     for i in range(0, MAX):
         if primes[i]:
             render.append(i)
-    print render
+    print(render)
 
 for i in range(2, MAX): # ignore zero and one
-    print "doing {}".format(i)
+    print("doing {}".format(i))
     if primes[i]:
         j = i + i
         while j < MAX:
-#            if primes[i]:
-#                print "eliminating {}".format(j)
-#            else:
-#                print "{} already eliminated".format(j)
+            if primes[i]:
+                print("eliminating {}".format(j))
+            else:
+                print("{} already eliminated".format(j))
             primes[j] = False
             j = j + i
         print_primes(primes)
     else:
         pass
-        #print "{} already not a prime".format(i)
+        print("{} already not a prime".format(i))
